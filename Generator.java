@@ -1,7 +1,7 @@
 public class Generator {
     public static void main(String[] args){
-        printCell(generateThreeCells());
         System.out.println();
+        printCell(generateThreeVerticalCells());
     }
     public static int[][] generateOneCell(){
         int[][] arr = new int[3][3];
@@ -16,7 +16,7 @@ public class Generator {
         }
         return arr;
     }
-    public static int[][] generateThreeCells(){
+    public static int[][] generateThreeHorizontalCells(){
         int[][] arr = new int[3][9];
         int[][] leftCell = generateOneCell();
         //adding leftcell to the horizontal
@@ -54,6 +54,41 @@ public class Generator {
         }
         return arr;
 
+    }
+    public static int[][] generateThreeVerticalCells(){
+        int[][] arr = new int[9][3];
+        int[][] topCell = generateOneCell();
+        //adding topcell to arr
+        for(int i = 0; i< topCell.length; i++){
+            System.arraycopy(topCell[i], 0, arr[i], 0, 3);
+        }
+        StringBuilder middleCell = new StringBuilder(); //Notate middle cell taken numbers
+        StringBuilder bottomCell = new StringBuilder(); //Notate bottom cell taken numbers
+        for(int col=0;col<arr[0].length;col++){
+            StringBuilder colTaken = new StringBuilder(); //Notate taken number in the columns
+            for(int[] n: topCell){
+                colTaken.append(n[col]);
+            }
+            for(int row=3;row<6;row++){
+                int num = (int) (Math.random() * 9) +1;
+                while(colTaken.toString().contains(Integer.toString(num)) || middleCell.toString().contains(Integer.toString(num))){
+                    num = (int) (Math.random() * 9) +1;
+                }
+                arr[row][col] = num;
+                colTaken.append(num);
+                middleCell.append(num);
+            }
+            for(int row=6;row<arr.length;row++){
+                int num = (int) (Math.random() * 9) +1;
+                while(colTaken.toString().contains(Integer.toString(num)) || bottomCell.toString().contains(Integer.toString(num))) {
+                    num = (int) (Math.random() * 9) +1;
+                }
+                arr[row][col] = num;
+                colTaken.append(num);
+                bottomCell.append(num);
+            }
+        }
+        return arr;
     }
     public static void printCell(int[][] cell){
         for (int[] ints : cell) {
